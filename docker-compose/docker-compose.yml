@@ -1,0 +1,36 @@
+version: '2'
+services:
+  kafka:
+    image: integration-test-kafka
+    expose:
+      - "2181"
+      - "9092"
+
+  pyspark:
+    image: integration-test-pyspark
+    expose:
+      - "9000"
+    command: bash
+    volumes:
+      - .:/app/
+      - ./dependencies:/app_dependencies
+      - ./tmp:/test_output
+    links:
+      - kafka
+      - elasticsearch
+
+  slave:
+    image: integration-test-slave
+    volumes:
+      - ./:/app
+      - ./data:/data
+      - ./tmp:/test_output
+    links:
+      - kafka
+
+  elasticsearch:
+    image: integration-test-elasticsearch
+    environment:
+      - Des.network.host=0.0.0.0
+    expose:
+      - "9200"
