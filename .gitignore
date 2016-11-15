@@ -1,0 +1,10 @@
+sbt
+*.iml
+out
+target
+*.iml
+.idea
+*~
+derby.log
+#*#
+.swp
