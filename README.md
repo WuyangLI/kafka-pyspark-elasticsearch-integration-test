@@ -59,3 +59,5 @@ If you get the following response, congratulations !  you made this integration 
 To tear down, use the flowing 
 docker-compose down
 Note that you may find a similar command docker-compose stop. The difference between these two command lines are 
+
+[1] http://blog.antlypls.com/blog/2015/10/05/getting-started-with-spark-streaming-using-docker/
