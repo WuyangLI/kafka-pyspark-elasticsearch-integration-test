@@ -90,18 +90,20 @@ Compose files using the version 2 syntax must indicate the version number at the
 2. services:
 A service definition contains configuration which will be applied to each container started for that service, much like passing command-line parameters to docker run.[[3](https://docs.docker.com/compose/compose-file/)] 
 
-  1. Image:
+  * image:
 
    Specify the image to start the container from. Can either be a repository/tag or a partial image ID. If the image does not exist, Compose attempts to pull it, unless you have also specified build, in which case it builds it using the specified options and tags it with the specified tag.[[3](https://docs.docker.com/compose/compose-file/)]  
 
-  2. Volumes:
+  * volumes:
 
    mount a path on the host[[3](https://docs.docker.com/compose/compose-file/)]  
+   In our case, for service pyspark, for instance, directories like `.`,`./dependencies`,`./tmp` are mounted so that the pyspark container could have access to the word-count script as well as all the artifacts of the application. Besides, the output is also written to `./tmp` dir, which can be used to confirm whether the raw data has been correctly processed.  
 
-  3. links:
+  * links:
 
    Containers for the linked service will be reachable at a hostname identical to the alias, or the service name if no alias was specified.[[3](https://docs.docker.com/compose/compose-file/)]  
    Links also express dependency between services in the same way as depends on, so they determine the order of service startup.[[3](https://docs.docker.com/compose/compose-file/)]  
+   In our case, for service pyspark, we must make sure that services like kafka and elasticsearch are up and running before launching the spark application.  
 
 
 ###STEP THREE, run `docker-compose up` and Compose will start and run your entire app.[[3](https://docs.docker.com/compose/compose-file/)]
@@ -139,10 +141,10 @@ docker-compose$ docker exec -it $(docker-compose ps -q slave) bash
 A simple query for counting the number of inserted documents:
 ```bash
 curl -XGET 'elasticsearch:9200/es_test/word_count/_count?pretty' -d '                                                                                    
- {
-"query":{ 
-"match_all":{}
-}
+{
+  "query":{ 
+  "match_all":{}
+  }
 }'
 ```
 If you get the following response, congratulations !  you made this integration test work!
@@ -168,12 +170,9 @@ If your disk has a very limited capacity or you run docker on a virtual machine,
 ```bash
 docker ps -a | grep 'ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm
 ```
-2. Delete images:
-```bash
-docker rmi –f 
-```
-3. Delete all untagged images:
-when you use `docker images` to display all the images in your system, if you find some weird ones like <none><none>, the post [What are Docker <none>:<none> images?](http://www.projectatomic.io/blog/2015/07/what-are-docker-none-none-images/) is definitely worth reading.
+2. Untagged images:
+when you use `docker images` to display all the images in your system, if you find some weird ones like <none><none>, the post [What are Docker <none>:<none> images?](http://www.projectatomic.io/blog/2015/07/what-are-docker-none-none-images/) is worth a read.
+
 
 ####Why my virtual disk keeps growing even after clearing cache and deleting all images and containers?
 [Virtual Disk Size Much Greater than File System Disk Size](https://forums.virtualbox.org/viewtopic.php?f=6&t=54411) [4]
@@ -182,6 +181,7 @@ when you use `docker images` to display all the images in your system, if you fi
 >So: the guest will show you what capacity the disk has, and how much data has been stored. VirtualBox on the other hand will tell you the disk capacity and the amount of it which has been "used", i.e. which has been written to even once.
 
 [How to compact VirtualBox's VDI file size?](http://superuser.com/questions/529149/how-to-compact-virtualboxs-vdi-file-size) [5]
+
 With a Linux Guest run this:
 install pv
 ```bash
