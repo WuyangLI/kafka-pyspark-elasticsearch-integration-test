@@ -1,6 +1,6 @@
 #Kafka-Pyspark-Elasticsearch integration test using docker-compose
 ##Overview
-This is piece of work based on my two-week experience on Docker and Docker compose, inspired by Anatoliy Plastinin’s blog [[1](http://blog.antlypls.com/blog/2015/10/05/getting-started-with-spark-streaming-using-docker/)].  If you use scala, Anatoliy’s blog is strongly recommended. If you play with pyspark or more familiar with python, maybe this would be a good start. As I'm a newbie to Docker and Docker compose, I would appreciate if you point out any bad practices or wrong doings in my code and blog.
+This piece of work is based on my two-week experience on Docker and Docker compose, inspired by Anatoliy Plastinin’s blog [[1](http://blog.antlypls.com/blog/2015/10/05/getting-started-with-spark-streaming-using-docker/)].  If you use scala, Anatoliy’s blog is strongly recommended. If you play with pyspark or more familiar with python, maybe this would be a good start. As I'm a newbie to Docker and Docker compose, I would appreciate if you point out any bad practices or wrong doings in my code and blog.
 This is an example of integration test for a spark streaming job. The spark job retrieves data from kafka, processes it, and then save the output to elasticsearch. The versions of all the components are listed below:
 
 |Name	        |version               |
