@@ -182,10 +182,6 @@ when you use `docker images` to display all the images in your system, if you fi
 >So: the guest will show you what capacity the disk has, and how much data has been stored. VirtualBox on the other hand will tell you the disk capacity and the amount of it which has been "used", i.e. which has been written to even once.
 
 [How to compact VirtualBox's VDI file size?](http://superuser.com/questions/529149/how-to-compact-virtualboxs-vdi-file-size) [5]
-```bash
-#compact vdi
-PATH=%PATH%;C:\Program Files\Oracle\VirtualBox
-```
 With a Linux Guest run this:
 install pv
 ```bash
@@ -194,6 +190,7 @@ sudo rm -rf /bigemptyfile
 ```
 With a Windows Host run this:
 ```bash
+PATH=%PATH%;C:\Program Files\Oracle\VirtualBox
 VBoxManage.exe modifyhd "path\to\your\xxx.vdi" --compact
 ```
 
