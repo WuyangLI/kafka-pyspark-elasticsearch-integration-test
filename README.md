@@ -1,7 +1,9 @@
 #Kafka-Pyspark-Elasticsearch integration test using docker-compose
 ##Overview
-This is piece of work based on my two-week experience on Docker and Docker compose, inspired by Anatoliy Plastinin’s blog[1].  If you use scala, Anatoliy’s blog is strongly recommended. If you play with pyspark or more familiar with python, maybe this would be a good start. As I'm a newbie to Docker and Docker compose, I would appreciate if you point out any bad practices or wrong doings in my code and blog.
+This is piece of work based on my two-week experience on Docker and Docker compose, inspired by Anatoliy Plastinin’s blog[1](http://blog.antlypls.com/blog/2015/10/05/getting-started-with-spark-streaming-using-docker/
+).  If you use scala, Anatoliy’s blog is strongly recommended. If you play with pyspark or more familiar with python, maybe this would be a good start. As I'm a newbie to Docker and Docker compose, I would appreciate if you point out any bad practices or wrong doings in my code and blog.
 This is an example of integration test for a spark streaming job. The spark job retrieves data from kafka, processes it, and then save the output to elasticsearch. The versions of all the components are listed below:
+
 |Name	        |version               |
 |---------------|:--------------------:|
 |Elasticsearch	|5                     |
@@ -84,23 +86,26 @@ services:
       - "9200"
 ```
 1. version: 
-Compose files using the version 2 syntax must indicate the version number at the root of the document. All services must be declared under the services key.[3]
+Compose files using the version 2 syntax must indicate the version number at the root of the document. All services must be declared under the services key.[3](https://docs.docker.com/compose/compose-file/)
 
 2. services:
-A service definition contains configuration which will be applied to each container started for that service, much like passing command-line parameters to docker run.[3] 
+A service definition contains configuration which will be applied to each container started for that service, much like passing command-line parameters to docker run.[3](https://docs.docker.com/compose/compose-file/) 
 
 ..1. Image:
-...Specify the image to start the container from. Can either be a repository/tag or a partial image ID. If the image does not exist, Compose attempts to pull it, unless you have also specified build, in which case it builds it using the specified options and tags it with the specified tag.[3]
+
+...Specify the image to start the container from. Can either be a repository/tag or a partial image ID. If the image does not exist, Compose attempts to pull it, unless you have also specified build, in which case it builds it using the specified options and tags it with the specified tag.[3](https://docs.docker.com/compose/compose-file/)..
 
 ...2. Volumes:
-...mount a path on the host[3]
+
+...mount a path on the host[3](https://docs.docker.com/compose/compose-file/)..
 
 ...3. links:
-...Containers for the linked service will be reachable at a hostname identical to the alias, or the service name if no alias was specified.[3]
-...Links also express dependency between services in the same way as depends on, so they determine the order of service startup.[3]
+
+...Containers for the linked service will be reachable at a hostname identical to the alias, or the service name if no alias was specified.[3](https://docs.docker.com/compose/compose-file/)..
+...Links also express dependency between services in the same way as depends on, so they determine the order of service startup.[3](https://docs.docker.com/compose/compose-file/)..
 
 
-###STEP THREE, run `docker-compose up` and Compose will start and run your entire app.[3]
+###STEP THREE, run `docker-compose up` and Compose will start and run your entire app.[3](https://docs.docker.com/compose/compose-file/)
 Wait………………don't run `docker-compose up`
 ####First of all, before you start, check if your system satisfy elasticsearch docker prerequisite: `vm.max_map_count` sysctl must be set to at least 262144.
 ```bash
@@ -115,7 +120,8 @@ wait until you see the process of creating a topic in kafka exits with status 0.
 ```
 kafka_1          | 2016-11-15 09:18:14,632 INFO exited: topic (exit status 0; expected)
 ```
-which means the kafka service is up running and the topic word-count has been created. Otherwise, an exception will be thrown because spark can’t find the topic ‘word_count’. Actually,  You can create a topic manually as described in Anatoliy’s blog[1].
+which means the kafka service is up running and the topic word-count has been created. Otherwise, an exception will be thrown because spark can’t find the topic ‘word_count’. Actually,  You can create a topic manually as described in Anatoliy’s blog[1](http://blog.antlypls.com/blog/2015/10/05/getting-started-with-spark-streaming-using-docker/
+).
 ####Start the spark streaming application with the following command line:
 ```bash
 docker-compose run --workdir="/app/" pyspark spark-submit --jars /app_dependencies/kafka_2.10-0.8.2.1.jar,/app_dependencies/kafka-clients-0.8.2.1.jar,/app_dependencies/metrics-core-2.2.0.jar,/app_dependencies/spark-streaming-kafka_2.10-1.6.0.jar,/app_dependencies/elasticsearch-hadoop-5.0.0.jar --conf spark.io.compression.codec=lz4 /app/integration_test_spark_app.py --brokers kafka --topic word_count --checkpoint /test_output/checkpoint_word_count --es_host elasticsearch --es_port 9200 --output /test_output/streaming_output/word-count
@@ -194,7 +200,11 @@ VBoxManage.exe modifyhd "path\to\your\xxx.vdi" --compact
 
 ##Reference:
 [1] http://blog.antlypls.com/blog/2015/10/05/getting-started-with-spark-streaming-using-docker/
+
 [2] https://docs.docker.com/compose/overview/
+
 [3] https://docs.docker.com/compose/compose-file/
+
 [4] https://forums.virtualbox.org/viewtopic.php?f=6&t=54411 
+
 [5] http://superuser.com/questions/529149/how-to-compact-virtualboxs-vdi-file-size
