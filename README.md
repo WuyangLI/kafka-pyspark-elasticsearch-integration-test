@@ -1,7 +1,6 @@
 #Kafka-Pyspark-Elasticsearch integration test using docker-compose
 ##Overview
-This is piece of work based on my two-week experience on Docker and Docker compose, inspired by Anatoliy Plastinin’s blog[1](http://blog.antlypls.com/blog/2015/10/05/getting-started-with-spark-streaming-using-docker/
-).  If you use scala, Anatoliy’s blog is strongly recommended. If you play with pyspark or more familiar with python, maybe this would be a good start. As I'm a newbie to Docker and Docker compose, I would appreciate if you point out any bad practices or wrong doings in my code and blog.
+This is piece of work based on my two-week experience on Docker and Docker compose, inspired by Anatoliy Plastinin’s blog [[1](http://blog.antlypls.com/blog/2015/10/05/getting-started-with-spark-streaming-using-docker/)].  If you use scala, Anatoliy’s blog is strongly recommended. If you play with pyspark or more familiar with python, maybe this would be a good start. As I'm a newbie to Docker and Docker compose, I would appreciate if you point out any bad practices or wrong doings in my code and blog.
 This is an example of integration test for a spark streaming job. The spark job retrieves data from kafka, processes it, and then save the output to elasticsearch. The versions of all the components are listed below:
 
 |Name	        |version               |
@@ -19,7 +18,7 @@ Compose is a tool for defining and running multi-container Docker applications. 
 By default Compose sets up a single network for your app. Each container for a service joins the default network and is both reachable by other containers on that network, and discoverable by them at a hostname identical to the container name.
 
 ####Three-step process
-According to Docker official docs [2](https://docs.docker.com/compose/overview/)
+According to Docker official docs [[2](https://docs.docker.com/compose/overview/)]
 >Using Compose is basically a three-step process.
 >1.	Define your app’s environment with a Dockerfile so it can be reproduced anywhere.
 >2.	Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment.
@@ -86,26 +85,26 @@ services:
       - "9200"
 ```
 1. version: 
-Compose files using the version 2 syntax must indicate the version number at the root of the document. All services must be declared under the services key.[3](https://docs.docker.com/compose/compose-file/)
+Compose files using the version 2 syntax must indicate the version number at the root of the document. All services must be declared under the services key.[[3](https://docs.docker.com/compose/compose-file/)]
 
 2. services:
-A service definition contains configuration which will be applied to each container started for that service, much like passing command-line parameters to docker run.[3](https://docs.docker.com/compose/compose-file/) 
+A service definition contains configuration which will be applied to each container started for that service, much like passing command-line parameters to docker run.[[3](https://docs.docker.com/compose/compose-file/)] 
 
-..1. Image:
+  1. Image:
 
-...Specify the image to start the container from. Can either be a repository/tag or a partial image ID. If the image does not exist, Compose attempts to pull it, unless you have also specified build, in which case it builds it using the specified options and tags it with the specified tag.[3](https://docs.docker.com/compose/compose-file/)..
+   Specify the image to start the container from. Can either be a repository/tag or a partial image ID. If the image does not exist, Compose attempts to pull it, unless you have also specified build, in which case it builds it using the specified options and tags it with the specified tag.[[3](https://docs.docker.com/compose/compose-file/)]  
 
-...2. Volumes:
+  2. Volumes:
 
-...mount a path on the host[3](https://docs.docker.com/compose/compose-file/)..
+   mount a path on the host[[3](https://docs.docker.com/compose/compose-file/)]  
 
-...3. links:
+  3. links:
 
-...Containers for the linked service will be reachable at a hostname identical to the alias, or the service name if no alias was specified.[3](https://docs.docker.com/compose/compose-file/)..
-...Links also express dependency between services in the same way as depends on, so they determine the order of service startup.[3](https://docs.docker.com/compose/compose-file/)..
+   Containers for the linked service will be reachable at a hostname identical to the alias, or the service name if no alias was specified.[[3](https://docs.docker.com/compose/compose-file/)]  
+   Links also express dependency between services in the same way as depends on, so they determine the order of service startup.[[3](https://docs.docker.com/compose/compose-file/)]  
 
 
-###STEP THREE, run `docker-compose up` and Compose will start and run your entire app.[3](https://docs.docker.com/compose/compose-file/)
+###STEP THREE, run `docker-compose up` and Compose will start and run your entire app.[[3](https://docs.docker.com/compose/compose-file/)]
 Wait………………don't run `docker-compose up`
 ####First of all, before you start, check if your system satisfy elasticsearch docker prerequisite: `vm.max_map_count` sysctl must be set to at least 262144.
 ```bash
