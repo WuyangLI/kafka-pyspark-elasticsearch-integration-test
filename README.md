@@ -11,17 +11,20 @@ This is an example of integration test for a spark streaming job. The spark job 
 
 ###Prerequisites:
 ####Docker
-Docker is an open-source project that automates the deployment of Linux applications inside software containers. Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run: code, runtime, system tools, system libraries – anything you can install on a server. This guarantees that it will always run the same, regardless of the environment it is running in
+>Docker is an open-source project that automates the deployment of Linux applications inside software containers. Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run: code, runtime, system tools, system libraries – anything you can install on a server. This guarantees that it will always run the same, regardless of the environment it is running in
 
 ####Docker-compose
-Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a Compose file to configure your application’s services.
-By default Compose sets up a single network for your app. Each container for a service joins the default network and is both reachable by other containers on that network, and discoverable by them at a hostname identical to the container name.
+>Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a Compose file to configure your application’s services.
+>By default Compose sets up a single network for your app. Each container for a service joins the default network and is both reachable by other containers on that network, and discoverable by them at a hostname identical to the container name.
 
 ####Three-step process
 According to Docker official docs [[2](https://docs.docker.com/compose/overview/)]
 >Using Compose is basically a three-step process.
+
 >1.	Define your app’s environment with a Dockerfile so it can be reproduced anywhere.
+
 >2.	Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment.
+
 >3.	Lastly, run docker-compose up and Compose will start and run your entire app.
 
 The next section is going to unroll in this three-step process
